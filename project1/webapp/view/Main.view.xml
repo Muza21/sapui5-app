@@ -1,6 +1,84 @@
-<mvc:View controllerName="project1.controller.Main"
-    xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m">
-    <Page id="page" title="{i18n>title}">
-    </Page>
+<mvc:View
+	controllerName="project1.controller.Main"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:semantic="sap.f.semantic">
+	<semantic:SemanticPage id="page" 
+		core:require="{
+			formatMessage: 'sap/base/strings/formatMessage',
+			DateType: 'sap/ui/model/type/Date'
+		}">
+		<semantic:titleHeading>
+			<Title
+				id="masterHeaderTitle"
+				text="{i18n>title}"/>
+		</semantic:titleHeading>
+		<semantic:content>
+			<List
+				id="list"
+				width="auto"
+				class="sapFDynamicPageAlignContent"
+				items="{odataV2Model>/Products}"
+				growing="true"
+				growingScrollToLoad="true"
+				updateFinished=".onUpdateFinished"
+				selectionChange=".onSelectionChange">
+				<headerToolbar>
+					<OverflowToolbar>
+						<SearchField
+							id="searchField"
+							showRefreshButton="true"
+							tooltip="{i18n>masterSearchTooltip}"
+							width="100%"
+							search=".onSearch">
+							<layoutData>
+								<OverflowToolbarLayoutData
+									minWidth="150px"
+									maxWidth="240px"
+									shrinkable="true"
+									priority="NeverOverflow"/>
+							</layoutData>
+						</SearchField>
+						<ToolbarSpacer/>
+						<Button
+							id="filterButton"
+							press=".onOpenViewSettings"
+							icon="sap-icon://filter"
+							type="Transparent"/>
+						<Button
+							id="groupButton"
+							press=".onOpenViewSettings"
+							icon="sap-icon://group-2"
+							type="Transparent"/>
+					</OverflowToolbar>
+				</headerToolbar>
+				<items>
+                    <CustomListItem>
+                        <HBox class="sapUiSmallMargin" justifyContent="SpaceBetween">
+                            <VBox class="sapUiSmallMarginEnd">
+                                <Text text="{odataV2Model>Name}" class="sapMTitle"/>
+                                <Text text="{odataV2Model>Description}" wrapping="true"/>
+                                <Text
+                                    text="{
+                                        path: 'odataV2Model>ReleaseDate',
+                                        type: 'sap.ui.model.type.Date',
+                                        formatOptions: { pattern: 'dd/MM/yyyy' }
+                                    }"/>
+                                <RatingIndicator
+                                    value="{odataV2Model>Rating}"
+                                    maxValue="5"
+                                    enabled="false"
+                                    iconSize="22px"/>
+                            </VBox>
+                            
+                            <VBox class="sapUiSmallMarginBegin">
+                                <Text text="${odataV2Model>Price}" class="sapMTitle" />
+                            </VBox>
+                        </HBox>
+                    </CustomListItem>
+				</items>
+			</List>
+		</semantic:content>
+	</semantic:SemanticPage>
 </mvc:View>
