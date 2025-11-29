@@ -97,12 +97,22 @@
           "name": "RouteMain",
           "pattern": ":?query:",
           "target": ["TargetMain"]
+        },
+        {
+          "name": "detail",
+          "pattern": "product/{productId}",
+          "target": ["TargetMain", "detail"]
         }
       ],
       "targets": {
         "TargetMain": {
           "id": "Main",
           "name": "Main"
+        },
+        "detail": {
+          "id": "detail",
+          "name": "Detail",
+          "level": 2
         }
       }
     },

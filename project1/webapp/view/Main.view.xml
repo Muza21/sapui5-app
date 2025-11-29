@@ -21,15 +21,12 @@
 				class="sapFDynamicPageAlignContent"
 				items="{odataV2Model>/Products}"
 				growing="true"
-				growingScrollToLoad="true"
-				updateFinished=".onUpdateFinished"
-				selectionChange=".onSelectionChange">
+				growingScrollToLoad="true">
 				<headerToolbar>
 					<OverflowToolbar>
 						<SearchField
 							id="searchField"
 							showRefreshButton="true"
-							tooltip="{i18n>masterSearchTooltip}"
 							width="100%"
 							search=".onSearch">
 							<layoutData>
@@ -42,19 +39,15 @@
 						</SearchField>
 						<ToolbarSpacer/>
 						<Button
-							id="filterButton"
-							press=".onOpenViewSettings"
-							icon="sap-icon://filter"
-							type="Transparent"/>
-						<Button
-							id="groupButton"
-							press=".onOpenViewSettings"
-							icon="sap-icon://group-2"
-							type="Transparent"/>
+							id="addButton"
+							text="{i18n>addRecord}"
+							icon="sap-icon://add"
+							type="Emphasized"
+							press=".onAdd"/>
 					</OverflowToolbar>
 				</headerToolbar>
 				<items>
-                    <CustomListItem>
+                    <CustomListItem type="Active" press=".onListItemPress">
                         <HBox class="sapUiSmallMargin" justifyContent="SpaceBetween">
                             <VBox class="sapUiSmallMarginEnd">
                                 <Text text="{odataV2Model>Name}" class="sapMTitle"/>
