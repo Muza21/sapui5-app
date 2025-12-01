@@ -14,7 +14,7 @@ sap.ui.define(
           editMode: false,
           createMode: false,
         });
-        this.getView().setModel(oViewModel, "view");
+        this.setModel(oViewModel, "view");
         this.oRouter = this.getOwnerComponent().getRouter();
         this.oRouter
           .getRoute("detail")
@@ -97,8 +97,8 @@ sap.ui.define(
       },
 
       onCancel: function () {
-        const oViewModel = this.getView().getModel("view");
-        const oODataModel = this.getView().getModel("odataV2Model");
+        const oViewModel = this.getModel("view");
+        const oODataModel = this.getModel("odataV2Model");
         const bCreateMode = oViewModel.getProperty("/createMode");
         const oContext = this.getView().getBindingContext("odataV2Model");
 
@@ -116,7 +116,7 @@ sap.ui.define(
 
       onDelete: function () {
         const oContext = this.getView().getBindingContext("odataV2Model");
-        const oODataModel = this.getView().getModel("odataV2Model");
+        const oODataModel = this.getModel("odataV2Model");
         const oResourceBundle = this.getOwnerComponent()
           .getModel("i18n")
           .getResourceBundle();
