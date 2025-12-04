@@ -48,7 +48,9 @@
       "minUI5Version": "1.142.1",
       "libs": {
         "sap.m": {},
-        "sap.ui.core": {}
+        "sap.ui.core": {},
+        "sap.f": {},
+        "sap.uxap": {}
       }
     },
     "contentDensities": {
@@ -82,44 +84,41 @@
     },
     "routing": {
       "config": {
-        "routerClass": "sap.m.routing.Router",
-        "controlAggregation": "pages",
-        "controlId": "app",
-        "transition": "slide",
-        "type": "View",
+        "routerClass": "sap.f.routing.Router",
         "viewType": "XML",
-        "path": "project1.view",
-        "async": true,
-        "viewPath": "project1.view"
+        "viewPath": "project1.view",
+        "controlId": "flexibleColumnLayout",
+        "async": true
       },
+
       "routes": [
         {
-          "name": "RouteMain",
-          "pattern": ":?query:",
-          "target": ["TargetMain"]
+          "pattern": "",
+          "name": "list",
+          "target": "list"
         },
         {
+          "pattern": "Products/{product}",
           "name": "detail",
-          "pattern": "product/{productId}",
-          "target": ["TargetMain", "detail"]
+          "target": ["list", "detail"]
         }
       ],
+
       "targets": {
-        "TargetMain": {
-          "id": "Main",
-          "name": "Main"
+        "list": {
+          "viewName": "List",
+          "controlAggregation": "beginColumnPages"
         },
         "detail": {
-          "id": "detail",
-          "name": "Detail",
-          "level": 2
+          "viewName": "Detail",
+          "controlAggregation": "midColumnPages"
         }
       }
     },
     "rootView": {
-      "viewName": "project1.view.App",
+      "viewName": "project1.view.Main",
       "type": "XML",
-      "id": "App",
+      "id": "flexibleColumnLayout",
       "async": true
     }
   }

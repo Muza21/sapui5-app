@@ -1,125 +1,115 @@
 <mvc:View
-    controllerName="project1.controller.Detail"
-    xmlns="sap.m"
-    xmlns:mvc="sap.ui.core.mvc"
-    xmlns:uxap="sap.uxap"
-    xmlns:layout="sap.ui.layout"
-    xmlns:form="sap.ui.layout.form">
-    <uxap:ObjectPageLayout
-        id="objectPage"
-        showTitleInHeaderContent="true"
-        upperCaseAnchorBar="false">
-        <uxap:headerTitle>
-            <uxap:ObjectPageDynamicHeaderTitle>
-                <uxap:expandedHeading>
-                    <Title
-                        id="productTitle"
-                        text="{odataV2Model>Name}"
-                        wrapping="true"/>
-                </uxap:expandedHeading>
-                <uxap:snappedHeading>
-                    <Title
-                        text="{odataV2Model>Name}"
-                        wrapping="true"/>
-                </uxap:snappedHeading>
-                <uxap:actions>
-                    <Button
-                        id="editButton"
-                        text="{i18n>edit}"
-                        type="Emphasized"
-                        press=".onEdit"
-                        visible="{= !${view>/editMode} &amp;&amp; !${view>/createMode}}"/>
-                    <Button
-                        id="deleteButton"
-                        text="{i18n>delete}"
-                        press=".onDelete"
-                        visible="{= !${view>/editMode} &amp;&amp; !${view>/createMode}}"/>
-                    <Button
-                        id="saveButton"
-                        text="{i18n>save}"
-                        type="Emphasized"
-                        press=".onSave"
-                        visible="{= ${view>/editMode} || ${view>/createMode}}"/>
-                    <Button
-                        id="cancelButton"
-                        text="{i18n>cancel}"
-                        press=".onCancel"
-                        visible="{= ${view>/editMode} || ${view>/createMode}}"/>
-                </uxap:actions>
-            </uxap:ObjectPageDynamicHeaderTitle>
-        </uxap:headerTitle>
-        <uxap:headerContent>
-            <layout:HorizontalLayout>
-                <layout:VerticalLayout class="sapUiSmallMarginEnd">
-                    <ObjectAttribute
-                        title="{i18n>price}"
-                        text="${odataV2Model>Price}"/>
-                    <ObjectAttribute
-                        title="{i18n>rating}"
-                        text="{odataV2Model>Rating}"/>
-                </layout:VerticalLayout>
-                <layout:VerticalLayout>
-                    <ObjectAttribute
-                        title="{i18n>releaseDate}"
-                        text="{
-                            path: 'odataV2Model>ReleaseDate',
-                            type: 'sap.ui.model.type.Date',
-                            formatOptions: { pattern: 'dd/MM/yyyy' }
-                        }"/>
-                </layout:VerticalLayout>
-            </layout:HorizontalLayout>
-        </uxap:headerContent>
-        <uxap:sections>
-            <uxap:ObjectPageSection
-                title="{i18n>generalInformation}">
-                <uxap:subSections>
-                    <uxap:ObjectPageSubSection>
-                        <uxap:blocks>
-                            <form:SimpleForm
+	controllerName="project1.controller.Detail"
+	xmlns="sap.uxap"
+	xmlns:m="sap.m"
+	xmlns:f="sap.f"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:mvc="sap.ui.core.mvc">
+	<ObjectPageLayout
+		id="ObjectPageLayout"
+		showTitleInHeaderContent="true"
+		alwaysShowContentHeader="false"
+		preserveHeaderStateOnScroll="false"
+		headerContentPinnable="true"
+		isChildPage="true"
+		upperCaseAnchorBar="false">
+        <headerTitle>
+			<ObjectPageDynamicHeaderTitle>
+                <expandedHeading>
+					<m:Title text="{odataV2Model>Name}" wrapping="true" class="sapUiSmallMarginEnd"/>
+				</expandedHeading>
+				<actions>
+					<m:ToggleButton
+						text="{i18n>edit}"
+						type="Emphasized"
+                        press=".onEdit"/>
+					<m:Button
+						text="{i18n>delete}"
+						type="Transparent"
+                        press=".onDelete"/>
+					<m:Button
+						text="{i18n>copy}"
+						type="Transparent"/>
+					<m:Button
+						icon="sap-icon://action"
+						type="Transparent"/>
+				</actions>
+			</ObjectPageDynamicHeaderTitle>
+		</headerTitle>
+        <headerContent>
+			<m:FlexBox wrap="Wrap" fitContainer="true" alignItems="Stretch">
+				<m:Avatar
+					displaySize="L"
+					displayShape="Square"
+					class="sapUiTinyMarginEnd">
+				</m:Avatar>
+				<m:VBox justifyContent="Center" class="sapUiSmallMarginEnd">
+					<m:Label text="{i18n>name}"/>
+                    <m:Text text="{odataV2Model>Name}"/>
+				</m:VBox>
+				<m:VBox justifyContent="Center" class="sapUiSmallMarginEnd">
+					<m:Label text="{i18n>price}"/>
+                    <m:Text text="{odataV2Model>Price}"/>
+				</m:VBox>
+			</m:FlexBox>
+		</headerContent>
+        <sections>
+			<ObjectPageSection title="General Information">
+				<subSections>
+					<ObjectPageSubSection>
+						<blocks>
+							<form:SimpleForm
                                 id="productForm"
-                                editable="true"
-                                layout="ResponsiveGridLayout">
-                                <form:content>
-                                    <Label text="{i18n>productName}"/>
-                                    <Input
-                                        id="nameInput"
-                                        value="{odataV2Model>Name}"
-                                        editable="{= ${view>/editMode} || ${view>/createMode}}"/>
-                                    <Label text="{i18n>description}"/>
-                                    <TextArea
-                                        id="descriptionInput"
-                                        value="{odataV2Model>Description}"
-                                        rows="3"
-                                        editable="{= ${view>/editMode} || ${view>/createMode}}"/>
-                                    <Label text="{i18n>price}"/>
-                                    <Input
-                                        id="priceInput"
-                                        value="{odataV2Model>Price}"
-                                        type="Number"
-                                        editable="{= ${view>/editMode} || ${view>/createMode}}"/>
-                                    <Label text="{i18n>rating}"/>
-                                    <StepInput
-                                        id="ratingInput"
-                                        value="{odataV2Model>Rating}"
-                                        min="1"
-                                        max="5"
-                                        step="1"
-                                        editable="{= ${view>/editMode} || ${view>/createMode}}"/>
-                                    <Label text="{i18n>releaseDate}"/>
-                                    <DatePicker
-                                        id="releaseDatePicker"
-                                        value="{
-                                            path: 'odataV2Model>ReleaseDate',
-                                            type: 'sap.ui.model.type.Date',
-                                            formatOptions: { pattern: 'dd/MM/yyyy' }
+								maxContainerCols="2"
+                                editable="{view>/editMode}"
+								layout="ResponsiveGridLayout"
+								labelSpanL="12"
+								labelSpanM="12"
+								emptySpanL="0"
+								emptySpanM="0"
+								columnsL="1"
+								columnsM="1">
+								<form:content>
+									<m:Label text="{i18n>productId}"/>
+                                    <m:Text text="{odataV2Model>ID}"/>
+
+                                    <m:Label text="{i18n>name}"/>
+                                    <m:Input value="{odataV2Model>Name}" enabled="{view>/editMode}"/>
+
+                                    <m:Label text="{i18n>description}"/>
+                                    <m:Input value="{odataV2Model>Description}" enabled="{view>/editMode}"/>
+
+                                    <m:Label text="{i18n>releaseDate}"/>
+                                    <m:DatePicker value="{
+                                        path: 'odataV2Model>ReleaseDate',
+                                        type:'sap.ui.model.type.Date',
+                                        formatOptions:{
+                                                pattern:'dd/MM/yyyy'
+                                            }
                                         }"
-                                        editable="{= ${view>/editMode} || ${view>/createMode}}"/>
-                                </form:content>
-                            </form:SimpleForm>
-                        </uxap:blocks>
-                    </uxap:ObjectPageSubSection>
-                </uxap:subSections>
-            </uxap:ObjectPageSection>
-        </uxap:sections>
-    </uxap:ObjectPageLayout>
+                                        enabled="{view>/editMode}"/>
+                                    <m:Label text="{i18n>rating}"/>
+
+                                    <m:RatingIndicator
+                                        value="{odataV2Model>Rating}"
+                                        maxValue="5"
+                                        enabled="{view>/editMode}"/>
+
+                                    <m:Label text="{i18n>price}"/>
+                                    <m:Input value="{odataV2Model>Price}" enabled="{view>/editMode}"/>
+								</form:content>
+							</form:SimpleForm>
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+        </sections>
+        <footer>
+			<m:OverflowToolbar>
+				<m:ToolbarSpacer/>
+				<m:Button type="Accept" text="{i18n>save}" press=".onSave"/>
+				<m:Button type="Reject" text="{i18n>cancel}" press=".onCancel"/>
+			</m:OverflowToolbar>
+		</footer>
+	</ObjectPageLayout>
 </mvc:View>

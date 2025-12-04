@@ -1,0 +1,60 @@
+<mvc:View
+	controllerName="project1.controller.List"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:f="sap.f"
+	xmlns:mvc="sap.ui.core.mvc">
+	<f:DynamicPage id="dynamicPageId" toggleHeaderOnTitleClick="false">
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:heading>
+					<Title text="{i18n>title}"/>
+				</f:heading>
+			</f:DynamicPageTitle>
+		</f:title>
+
+		<f:content>
+			<VBox fitContainer="true">
+				<OverflowToolbar class="sapFDynamicPageAlignContent">
+					<ToolbarSpacer/>
+					<SearchField search=".onSearch" width="17.5rem"/>
+					<OverflowToolbarButton icon="sap-icon://add" text="Add" type="Transparent" press=".onAdd"/>
+					<OverflowToolbarButton icon="sap-icon://sort" text="Sort" type="Transparent" press=".onSort"/>
+				</OverflowToolbar>
+                <List
+                    id="productsTable"
+                    width="auto"
+                    class="sapFDynamicPageAlignContent"
+                    items="{odataV2Model>/Products}"
+                    growing="true"
+                    growingScrollToLoad="true">
+                    <items>
+                        <CustomListItem type="Active" press=".onListItemPress" binding="{odataV2Model>}">
+                            <HBox class="sapUiSmallMargin" justifyContent="SpaceBetween">
+                                <VBox class="sapUiSmallMarginEnd">
+                                    <Text text="{odataV2Model>Name}" class="sapMTitle"/>
+                                    <Text text="{odataV2Model>Description}" wrapping="true"/>
+                                    <Text
+                                        text="{
+                                            path: 'odataV2Model>ReleaseDate',
+                                            type: 'sap.ui.model.type.Date',
+                                            formatOptions: { pattern: 'dd/MM/yyyy' }
+                                        }"/>
+                                    <RatingIndicator
+                                        value="{odataV2Model>Rating}"
+                                        maxValue="5"
+                                        enabled="false"
+                                        iconSize="22px"/>
+                                </VBox>
+                                
+                                <VBox class="sapUiSmallMarginBegin">
+                                    <Text text="${odataV2Model>Price}" class="sapMTitle" />
+                                </VBox>
+                            </HBox>
+                        </CustomListItem>
+                    </items>
+                </List>
+			</VBox>
+		</f:content>
+	</f:DynamicPage>
+</mvc:View>

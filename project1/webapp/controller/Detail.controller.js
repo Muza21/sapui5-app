@@ -1,11 +1,12 @@
 sap.ui.define(
   [
     "project1/controller/BaseController",
+    "sap/f/library",
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageBox",
     "sap/m/MessageToast",
   ],
-  function (BaseController, JSONModel, MessageBox, MessageToast) {
+  function (BaseController, fioriLibrary, JSONModel, MessageBox, MessageToast) {
     "use strict";
 
     return BaseController.extend("project1.controller.Detail", {
@@ -22,19 +23,20 @@ sap.ui.define(
       },
 
       _onRouteMatched: function (oEvent) {
-        const sProductId = oEvent.getParameter("arguments").productId;
+        const sProductId = oEvent.getParameter("arguments").product;
         const bCreateMode = sProductId === "new";
         const oViewModel = this.getModel("view");
         const oModel = this.getModel("odataV2Model");
         const oView = this.getView();
 
         oViewModel.setProperty("/createMode", bCreateMode);
-        oViewModel.setProperty("/editMode", false);
+        oViewModel.setProperty("/editMode", bCreateMode);
 
         let oContext;
         if (bCreateMode) {
           oContext = oModel.createEntry("/Products", {
             properties: {
+              ID: Date.now(),
               Name: "",
               Description: "",
               ReleaseDate: null,
@@ -43,30 +45,39 @@ sap.ui.define(
               DiscontinuedDate: null,
             },
           });
-          this._setSmartFormEditable(true);
+          this._toggleFooter();
         } else {
+          this._toggleFooter();
           oContext = oModel.getContext(`/Products(${sProductId})`);
           oModel.read(`/Products(${sProductId})`, {
-            success: () => {
-              this._setSmartFormEditable(false);
-            },
+            success: () => this._setEditMode(false),
             error: () => {},
           });
         }
+
         oView.setBindingContext(oContext, "odataV2Model");
+
+        this.getOwnerComponent()
+          .getModel()
+          .setProperty(
+            "/layout",
+            fioriLibrary.LayoutType.TwoColumnsMidExpanded
+          );
       },
 
-      _setSmartFormEditable: function (bEditable) {
-        const oSmartForm = this.byId("productForm");
-        if (oSmartForm) {
-          oSmartForm.setEditable(bEditable);
-        }
+      _setEditMode: function (bEdit) {
+        const oViewModel = this.getModel("view");
+        oViewModel.setProperty("/editMode", bEdit);
       },
 
       onEdit: function () {
         const oViewModel = this.getModel("view");
-        oViewModel.setProperty("/editMode", true);
-        this._setSmartFormEditable(true);
+        const bCurrent = oViewModel.getProperty("/editMode");
+        this._setEditMode(!bCurrent);
+        this._toggleFooter();
+        if (bCurrent) {
+          this.onCancel();
+        }
       },
 
       onSave: function () {
@@ -86,8 +97,8 @@ sap.ui.define(
         oODataModel.submitChanges({
           success: () => {
             MessageToast.show(oResourceBundle.getText("saveSuccess"));
-            oViewModel.setProperty("/editMode", false);
-            this._setSmartFormEditable(false);
+            this._setEditMode(false);
+            this._toggleFooter();
             if (oViewModel.getProperty("/createMode")) {
               oViewModel.setProperty("/createMode", false);
             }
@@ -107,11 +118,15 @@ sap.ui.define(
         }
 
         if (bCreateMode) {
-          this.oRouter.navTo("RouteMain", {}, true);
+          this.oRouter.navTo(
+            "list",
+            { layout: fioriLibrary.LayoutType.OneColumn },
+            true
+          );
         } else {
-          oViewModel.setProperty("/editMode", false);
-          this._setSmartFormEditable(false);
+          this._setEditMode(false);
         }
+        this._toggleFooter();
       },
 
       onDelete: function () {
@@ -131,7 +146,13 @@ sap.ui.define(
               oODataModel.remove(sPath, {
                 success: () => {
                   MessageToast.show(oResourceBundle.getText("deleteSuccess"));
-                  this.oRouter.navTo("RouteMain", {}, true);
+                  this.oRouter.navTo(
+                    "list",
+                    {
+                      layout: fioriLibrary.LayoutType.OneColumn,
+                    },
+                    true
+                  );
                 },
                 error: (oError) => {
                   MessageToast.show(
@@ -144,6 +165,15 @@ sap.ui.define(
           },
           dependentOn: this.getView(),
         });
+      },
+
+      _toggleFooter: function () {
+        const oObjectPage = this.getView().byId("ObjectPageLayout");
+        const oViewModel = this.getModel("view");
+        const bEditableMode =
+          oViewModel.getProperty("/editMode") ||
+          oViewModel.getProperty("/createMode");
+        oObjectPage.setShowFooter(bEditableMode);
       },
 
       _validateProductData: function (oData) {
