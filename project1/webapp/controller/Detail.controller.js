@@ -31,31 +31,33 @@ sap.ui.define(
 
         oViewModel.setProperty("/createMode", bCreateMode);
         oViewModel.setProperty("/editMode", bCreateMode);
-
-        let oContext;
+        if (!this._oEditModel) {
+          this._oEditModel = new JSONModel();
+          this.setModel(this._oEditModel, "edit");
+        }
         if (bCreateMode) {
-          oContext = oModel.createEntry("/Products", {
-            properties: {
-              ID: Date.now(),
-              Name: "",
-              Description: "",
-              ReleaseDate: null,
-              Rating: null,
-              Price: null,
-              DiscontinuedDate: null,
-            },
+          this._oEditModel.setData({
+            ID: Date.now(),
+            Name: "",
+            Description: "",
+            ReleaseDate: "",
+            Rating: null,
+            Price: null,
+            DiscontinuedDate: null,
           });
           this._toggleFooter();
         } else {
           this._toggleFooter();
-          oContext = oModel.getContext(`/Products(${sProductId})`);
+          const oContext = oModel.getContext(`/Products(${sProductId})`);
+          oView.setBindingContext(oContext, "odataV2Model");
           oModel.read(`/Products(${sProductId})`, {
-            success: () => this._setEditMode(false),
+            success: (oData) => {
+              this._oEditModel.setData(oData);
+              this._setEditMode(false);
+            },
             error: () => {},
           });
         }
-
-        oView.setBindingContext(oContext, "odataV2Model");
 
         this.getOwnerComponent()
           .getModel()
@@ -85,23 +87,19 @@ sap.ui.define(
           .getModel("i18n")
           .getResourceBundle();
         const oODataModel = this.getModel("odataV2Model");
+        const oFormData = this.getModel("edit");
         const oContext = this.getView().getBindingContext("odataV2Model");
-        const oData = oContext.getObject();
-        const oViewModel = this.getModel("view");
+        const oData = oFormData.getData();
         const sError = this._validateProductData(oData);
         if (sError) {
           MessageToast.show(sError);
           return;
         }
-
-        oODataModel.submitChanges({
+        oODataModel.update(oContext.getPath(), oFormData.getData(), {
           success: () => {
             MessageToast.show(oResourceBundle.getText("saveSuccess"));
             this._setEditMode(false);
             this._toggleFooter();
-            if (oViewModel.getProperty("/createMode")) {
-              oViewModel.setProperty("/createMode", false);
-            }
           },
           error: () => MessageToast.show(oResourceBundle.getText("saveError")),
         });
@@ -111,11 +109,6 @@ sap.ui.define(
         const oViewModel = this.getModel("view");
         const oODataModel = this.getModel("odataV2Model");
         const bCreateMode = oViewModel.getProperty("/createMode");
-        const oContext = this.getView().getBindingContext("odataV2Model");
-
-        if (oContext) {
-          oODataModel.resetChanges([oContext.getPath()]);
-        }
 
         if (bCreateMode) {
           this.oRouter.navTo(
@@ -124,6 +117,14 @@ sap.ui.define(
             true
           );
         } else {
+          const sPath = this.getView()
+            .getBindingContext("odataV2Model")
+            .getPath();
+          oODataModel.read(sPath, {
+            success: (oData) => {
+              this.getModel("edit").setData(oData);
+            },
+          });
           this._setEditMode(false);
         }
         this._toggleFooter();
@@ -188,9 +189,15 @@ sap.ui.define(
         if (!oData.Description || oData.Description.trim() === "") {
           return oResourceBundle.getText("descriptionRequired");
         }
-
         if (!oData.ReleaseDate) {
           return oResourceBundle.getText("releaseDateRequired");
+        }
+
+        function isValidDate(d) {
+          return d instanceof Date && !isNaN(d);
+        }
+        if (isValidDate(oData.ReleaseDate)) {
+          return oResourceBundle.getText("releaseDateInvalid");
         }
 
         if (
@@ -204,7 +211,6 @@ sap.ui.define(
         if (oData.Rating < 1 || oData.Rating > 5) {
           return oResourceBundle.getText("ratingRange");
         }
-
         if (
           oData.Price === null ||
           oData.Price === undefined ||
@@ -212,7 +218,9 @@ sap.ui.define(
         ) {
           return oResourceBundle.getText("priceRequired");
         }
-
+        if (isNaN(oData.Price)) {
+          return oResourceBundle.getText("priceInvalid");
+        }
         if (parseFloat(oData.Price) < 0) {
           return oResourceBundle.getText("pricePositive");
         }

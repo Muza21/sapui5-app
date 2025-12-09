@@ -16,7 +16,7 @@
         <headerTitle>
 			<ObjectPageDynamicHeaderTitle>
                 <expandedHeading>
-					<m:Title text="{odataV2Model>Name}" wrapping="true" class="sapUiSmallMarginEnd"/>
+					<m:Title text="{edit>/Name}" wrapping="true" class="sapUiSmallMarginEnd"/>
 				</expandedHeading>
 				<actions>
 					<m:ToggleButton
@@ -27,12 +27,6 @@
 						text="{i18n>delete}"
 						type="Transparent"
                         press=".onDelete"/>
-					<m:Button
-						text="{i18n>copy}"
-						type="Transparent"/>
-					<m:Button
-						icon="sap-icon://action"
-						type="Transparent"/>
 				</actions>
 			</ObjectPageDynamicHeaderTitle>
 		</headerTitle>
@@ -45,11 +39,11 @@
 				</m:Avatar>
 				<m:VBox justifyContent="Center" class="sapUiSmallMarginEnd">
 					<m:Label text="{i18n>name}"/>
-                    <m:Text text="{odataV2Model>Name}"/>
+                    <m:Text text="{edit>/Name}"/>
 				</m:VBox>
 				<m:VBox justifyContent="Center" class="sapUiSmallMarginEnd">
 					<m:Label text="{i18n>price}"/>
-                    <m:Text text="{odataV2Model>Price}"/>
+                    <m:Text text="{edit>/Price}"/>
 				</m:VBox>
 			</m:FlexBox>
 		</headerContent>
@@ -71,17 +65,17 @@
 								columnsM="1">
 								<form:content>
 									<m:Label text="{i18n>productId}"/>
-                                    <m:Text text="{odataV2Model>ID}"/>
+                                    <m:Text text="{edit>/ID}"/>
 
                                     <m:Label text="{i18n>name}"/>
-                                    <m:Input value="{odataV2Model>Name}" enabled="{view>/editMode}"/>
+                                    <m:Input value="{edit>/Name}" enabled="{view>/editMode}"/>
 
                                     <m:Label text="{i18n>description}"/>
-                                    <m:Input value="{odataV2Model>Description}" enabled="{view>/editMode}"/>
+                                    <m:Input value="{edit>/Description}" enabled="{view>/editMode}"/>
 
                                     <m:Label text="{i18n>releaseDate}"/>
                                     <m:DatePicker value="{
-                                        path: 'odataV2Model>ReleaseDate',
+                                        path: 'edit>/ReleaseDate',
                                         type:'sap.ui.model.type.Date',
                                         formatOptions:{
                                                 pattern:'dd/MM/yyyy'
@@ -91,12 +85,12 @@
                                     <m:Label text="{i18n>rating}"/>
 
                                     <m:RatingIndicator
-                                        value="{odataV2Model>Rating}"
+                                        value="{edit>/Rating}"
                                         maxValue="5"
                                         enabled="{view>/editMode}"/>
 
                                     <m:Label text="{i18n>price}"/>
-                                    <m:Input value="{odataV2Model>Price}" enabled="{view>/editMode}"/>
+                                    <m:Input value="{edit>/Price}" enabled="{view>/editMode}"/>
 								</form:content>
 							</form:SimpleForm>
 						</blocks>
