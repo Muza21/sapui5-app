@@ -23,9 +23,11 @@ sap.ui.define(
         if (sQuery && sQuery.length > 0) {
           aFilters.push(
             new Filter({
-              path: "Description",
-              operator: FilterOperator.Contains,
-              value1: sQuery,
+              filters: [
+                new Filter("Name", FilterOperator.Contains, sQuery),
+                new Filter("Description", FilterOperator.Contains, sQuery),
+              ],
+              and: false,
             })
           );
         }

@@ -116,7 +116,7 @@
       }
     },
     "rootView": {
-      "viewName": "project1.view.Main",
+      "viewName": "project1.view.App",
       "type": "XML",
       "id": "flexibleColumnLayout",
       "async": true

@@ -88,21 +88,44 @@ sap.ui.define(
           .getResourceBundle();
         const oODataModel = this.getModel("odataV2Model");
         const oFormData = this.getModel("edit");
-        const oContext = this.getView().getBindingContext("odataV2Model");
         const oData = oFormData.getData();
+        const oViewModel = this.getModel("view");
+
         const sError = this._validateProductData(oData);
         if (sError) {
           MessageToast.show(sError);
           return;
         }
-        oODataModel.update(oContext.getPath(), oFormData.getData(), {
-          success: () => {
-            MessageToast.show(oResourceBundle.getText("saveSuccess"));
-            this._setEditMode(false);
-            this._toggleFooter();
-          },
-          error: () => MessageToast.show(oResourceBundle.getText("saveError")),
-        });
+        const bCreateMode = oViewModel.getProperty("/createMode");
+
+        if (bCreateMode) {
+          oODataModel.create("/Products", oData, {
+            success: () => {
+              MessageToast.show(oResourceBundle.getText("saveSuccess"));
+              this._setEditMode(false);
+              oViewModel.setProperty("/createMode", false);
+              this._toggleFooter();
+              this.oRouter.navTo(
+                "list",
+                { layout: fioriLibrary.LayoutType.OneColumn },
+                true
+              );
+            },
+            error: () =>
+              MessageToast.show(oResourceBundle.getText("saveError")),
+          });
+        } else {
+          const oContext = this.getView().getBindingContext("odataV2Model");
+          oODataModel.update(oContext.getPath(), oFormData.getData(), {
+            success: () => {
+              MessageToast.show(oResourceBundle.getText("saveSuccess"));
+              this._setEditMode(false);
+              this._toggleFooter();
+            },
+            error: () =>
+              MessageToast.show(oResourceBundle.getText("saveError")),
+          });
+        }
       },
 
       onCancel: function () {
@@ -192,11 +215,7 @@ sap.ui.define(
         if (!oData.ReleaseDate) {
           return oResourceBundle.getText("releaseDateRequired");
         }
-
-        function isValidDate(d) {
-          return d instanceof Date && !isNaN(d);
-        }
-        if (isValidDate(oData.ReleaseDate)) {
+        if (!this._validateDatePicker()) {
           return oResourceBundle.getText("releaseDateInvalid");
         }
 
@@ -226,6 +245,20 @@ sap.ui.define(
         }
 
         return null;
+      },
+
+      _validateDatePicker: function () {
+        const oDP = this.byId("productDatePicker");
+
+        if (!oDP) {
+          return false;
+        }
+
+        if (!oDP.isValidValue()) {
+          return false;
+        }
+
+        return true;
       },
     });
   }

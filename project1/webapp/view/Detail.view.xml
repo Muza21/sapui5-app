@@ -22,6 +22,7 @@
 					<m:ToggleButton
 						text="{i18n>edit}"
 						type="Emphasized"
+						visible="{= !${view>/editMode} }"
                         press=".onEdit"/>
 					<m:Button
 						text="{i18n>delete}"
@@ -74,13 +75,16 @@
                                     <m:Input value="{edit>/Description}" enabled="{view>/editMode}"/>
 
                                     <m:Label text="{i18n>releaseDate}"/>
-                                    <m:DatePicker value="{
-                                        path: 'edit>/ReleaseDate',
-                                        type:'sap.ui.model.type.Date',
-                                        formatOptions:{
-                                                pattern:'dd/MM/yyyy'
-                                            }
-                                        }"
+                                    <m:DatePicker
+										id="productDatePicker"
+										value="{
+											path: 'edit>/ReleaseDate',
+											type:'sap.ui.model.type.Date',
+											formatOptions:{
+													pattern:'dd/MM/yyyy',
+													strictParsing: true
+												}
+											}"
                                         enabled="{view>/editMode}"/>
                                     <m:Label text="{i18n>rating}"/>
 
