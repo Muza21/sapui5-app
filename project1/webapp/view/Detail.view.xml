@@ -27,6 +27,7 @@
 					<m:Button
 						text="{i18n>delete}"
 						type="Transparent"
+						visible="{= !${view>/editMode} }"
                         press=".onDelete"/>
 				</actions>
 			</ObjectPageDynamicHeaderTitle>

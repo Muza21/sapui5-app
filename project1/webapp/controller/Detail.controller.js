@@ -146,6 +146,16 @@ sap.ui.define(
           oODataModel.read(sPath, {
             success: (oData) => {
               this.getModel("edit").setData(oData);
+              const oDP = this.byId("productDatePicker");
+              if (oDP) {
+                const oDateType = new sap.ui.model.type.Date({
+                  pattern: "dd/MM/yyyy",
+                  strictParsing: true,
+                });
+                oDP.setValue(
+                  oDateType.formatValue(oData.ReleaseDate, "string")
+                );
+              }
             },
           });
           this._setEditMode(false);
