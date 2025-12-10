@@ -30,7 +30,7 @@ sap.ui.define(
         const oView = this.getView();
 
         oViewModel.setProperty("/createMode", bCreateMode);
-        oViewModel.setProperty("/editMode", bCreateMode);
+        oViewModel.setProperty("/editMode", false);
         if (!this._oEditModel) {
           this._oEditModel = new JSONModel();
           this.setModel(this._oEditModel, "edit");
@@ -45,6 +45,7 @@ sap.ui.define(
             Price: null,
             DiscontinuedDate: null,
           });
+          this._setEditMode(true);
           this._toggleFooter();
         } else {
           this._toggleFooter();
@@ -134,6 +135,7 @@ sap.ui.define(
         const bCreateMode = oViewModel.getProperty("/createMode");
 
         if (bCreateMode) {
+          this._setEditMode(false);
           this.oRouter.navTo(
             "list",
             { layout: fioriLibrary.LayoutType.OneColumn },
@@ -269,6 +271,9 @@ sap.ui.define(
         }
 
         return true;
+      },
+      isDirty: function () {
+        return this.getModel("view").getProperty("/editMode") === true;
       },
     });
   }

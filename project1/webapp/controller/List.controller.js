@@ -5,8 +5,16 @@ sap.ui.define(
     "sap/ui/model/FilterOperator",
     "sap/ui/model/Sorter",
     "sap/f/library",
+    "sap/m/MessageBox",
   ],
-  function (BaseController, Filter, FilterOperator, Sorter, fioriLibrary) {
+  function (
+    BaseController,
+    Filter,
+    FilterOperator,
+    Sorter,
+    fioriLibrary,
+    MessageBox
+  ) {
     "use strict";
 
     return BaseController.extend("project1.controller.List", {
@@ -24,8 +32,18 @@ sap.ui.define(
           aFilters.push(
             new Filter({
               filters: [
-                new Filter("Name", FilterOperator.Contains, sQuery),
-                new Filter("Description", FilterOperator.Contains, sQuery),
+                new Filter({
+                  path: "Name",
+                  operator: FilterOperator.Contains,
+                  value1: sQuery,
+                  caseSensitive: false,
+                }),
+                new Filter({
+                  path: "Description",
+                  operator: FilterOperator.Contains,
+                  value1: sQuery,
+                  caseSensitive: false,
+                }),
               ],
               and: false,
             })
@@ -55,6 +73,34 @@ sap.ui.define(
       },
 
       onListItemPress: function (oEvent) {
+        const oComponent = this.getOwnerComponent();
+        const oResourceBundle = oComponent.getModel("i18n").getResourceBundle();
+        const oFCL = oComponent
+          .getAggregation("rootControl")
+          .byId("flexibleColumnLayout");
+        const oMidPage = oFCL.getCurrentMidColumnPage();
+        let bIsDirty = false;
+        if (oMidPage && oMidPage.getController && oMidPage.getController()) {
+          const oDetailsController = oMidPage.getController();
+          if (oDetailsController.isDirty) {
+            bIsDirty = oDetailsController.isDirty();
+          }
+        }
+        if (bIsDirty) {
+          MessageBox.warning(oResourceBundle.getText("confirm"), {
+            actions: [MessageBox.Action.YES, MessageBox.Action.NO],
+            onClose: (oAction) => {
+              if (oAction === MessageBox.Action.YES) {
+                this._continueNavigation(oEvent);
+              }
+            },
+          });
+        } else {
+          this._continueNavigation(oEvent);
+        }
+      },
+
+      _continueNavigation: function (oEvent) {
         const oItem = oEvent.getSource();
         const oObject = oItem.getBindingContext("odataV2Model").getObject();
         this.oRouter.navTo("detail", {

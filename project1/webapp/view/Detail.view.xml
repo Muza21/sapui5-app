@@ -22,12 +22,14 @@
 					<m:ToggleButton
 						text="{i18n>edit}"
 						type="Emphasized"
-						visible="{= !${view>/editMode} }"
+						pressed="{= ${view>/editMode} }"
+					    enabled="{= !${view>/editMode} }"
+						visible="{= !${view>/createMode} }"
                         press=".onEdit"/>
 					<m:Button
 						text="{i18n>delete}"
 						type="Transparent"
-						visible="{= !${view>/editMode} }"
+						visible="{= !${view>/createMode} }"
                         press=".onDelete"/>
 				</actions>
 			</ObjectPageDynamicHeaderTitle>
