@@ -1,0 +1,182 @@
+[
+  {
+    "ID": 1,
+    "Name": "Smartphone X1",
+    "Description": "6.5\" OLED Display, 128GB Storage",
+    "ReleaseDate": "/Date(1704067200000)/",
+    "DiscontinuedDate": null,
+    "Rating": 5,
+    "Price": "799.99"
+  },
+  {
+    "ID": 2,
+    "Name": "Laptop Pro 15",
+    "Description": "15-inch, 16GB RAM, 512GB SSD",
+    "ReleaseDate": "/Date(1698777600000)/",
+    "DiscontinuedDate": null,
+    "Rating": 4,
+    "Price": "1299.99"
+  },
+  {
+    "ID": 3,
+    "Name": "Wireless Earbuds Z2",
+    "Description": "Noise-cancelling, 24h Battery Life",
+    "ReleaseDate": "/Date(1701907200000)/",
+    "DiscontinuedDate": null,
+    "Rating": 4,
+    "Price": "149.99"
+  },
+  {
+    "ID": 4,
+    "Name": "Smartwatch S3",
+    "Description": "Heart Rate & Sleep Tracking, 1.8\" AMOLED",
+    "ReleaseDate": "/Date(1702483200000)/",
+    "DiscontinuedDate": null,
+    "Rating": 5,
+    "Price": "249.99"
+  },
+  {
+    "ID": 5,
+    "Name": "Gaming Console Neo",
+    "Description": "8K Gaming, 1TB SSD, VR Ready",
+    "ReleaseDate": "/Date(1703174400000)/",
+    "DiscontinuedDate": null,
+    "Rating": 5,
+    "Price": "499.99"
+  },
+  {
+    "ID": 6,
+    "Name": "4K OLED TV 55\"",
+    "Description": "Smart TV with HDR10+ and Dolby Vision",
+    "ReleaseDate": "/Date(1699862400000)/",
+    "DiscontinuedDate": null,
+    "Rating": 5,
+    "Price": "899.99"
+  },
+  {
+    "ID": 7,
+    "Name": "Portable Bluetooth Speaker",
+    "Description": "360° Sound, Waterproof IPX7",
+    "ReleaseDate": "/Date(1700563200000)/",
+    "DiscontinuedDate": null,
+    "Rating": 4,
+    "Price": "129.99"
+  },
+  {
+    "ID": 8,
+    "Name": "Digital Camera Pro",
+    "Description": "24MP, 4K Video, Wi-Fi Enabled",
+    "ReleaseDate": "/Date(1701244800000)/",
+    "DiscontinuedDate": null,
+    "Rating": 4,
+    "Price": "549.99"
+  },
+  {
+    "ID": 9,
+    "Name": "Tablet Ultra 12\"",
+    "Description": "12-inch, 256GB, Stylus Included",
+    "ReleaseDate": "/Date(1701830400000)/",
+    "DiscontinuedDate": null,
+    "Rating": 4,
+    "Price": "699.99"
+  },
+  {
+    "ID": 10,
+    "Name": "Smart Home Hub",
+    "Description": "Voice Control, Zigbee & Wi-Fi",
+    "ReleaseDate": "/Date(1702416000000)/",
+    "DiscontinuedDate": null,
+    "Rating": 4,
+    "Price": "129.99"
+  },
+  {
+    "ID": 11,
+    "Name": "Wireless Charging Pad",
+    "Description": "15W Fast Charging, Qi Compatible",
+    "ReleaseDate": "/Date(1703001600000)/",
+    "DiscontinuedDate": null,
+    "Rating": 3,
+    "Price": "39.99"
+  },
+  {
+    "ID": 12,
+    "Name": "Robot Vacuum Cleaner",
+    "Description": "Smart Mapping, 120min Runtime",
+    "ReleaseDate": "/Date(1703587200000)/",
+    "DiscontinuedDate": null,
+    "Rating": 4,
+    "Price": "299.99"
+  },
+  {
+    "ID": 13,
+    "Name": "Gaming Mouse RGB",
+    "Description": "16000 DPI, Programmable Buttons",
+    "ReleaseDate": "/Date(1704172800000)/",
+    "DiscontinuedDate": null,
+    "Rating": 5,
+    "Price": "69.99"
+  },
+  {
+    "ID": 14,
+    "Name": "Mechanical Keyboard",
+    "Description": "RGB Backlit, Blue Switches",
+    "ReleaseDate": "/Date(1704758400000)/",
+    "DiscontinuedDate": null,
+    "Rating": 4,
+    "Price": "119.99"
+  },
+  {
+    "ID": 15,
+    "Name": "Noise Cancelling Headphones",
+    "Description": "Over-Ear, Bluetooth 5.2",
+    "ReleaseDate": "/Date(1705344000000)/",
+    "DiscontinuedDate": null,
+    "Rating": 5,
+    "Price": "249.99"
+  },
+  {
+    "ID": 16,
+    "Name": "Smart Thermostat",
+    "Description": "Wi-Fi Enabled, Energy Saving",
+    "ReleaseDate": "/Date(1705939200000)/",
+    "DiscontinuedDate": null,
+    "Rating": 4,
+    "Price": "199.99"
+  },
+  {
+    "ID": 17,
+    "Name": "Action Camera 4K",
+    "Description": "Waterproof, 30fps 4K Video",
+    "ReleaseDate": "/Date(1706534400000)/",
+    "DiscontinuedDate": null,
+    "Rating": 4,
+    "Price": "299.99"
+  },
+  {
+    "ID": 18,
+    "Name": "Electric Scooter",
+    "Description": "25km/h, 30km Range, Foldable",
+    "ReleaseDate": "/Date(1707120000000)/",
+    "DiscontinuedDate": null,
+    "Rating": 4,
+    "Price": "499.99"
+  },
+  {
+    "ID": 19,
+    "Name": "Portable Monitor 15.6\"",
+    "Description": "1080p, USB-C Powered, Lightweight",
+    "ReleaseDate": "/Date(1707705600000)/",
+    "DiscontinuedDate": null,
+    "Rating": 4,
+    "Price": "219.99"
+  },
+  {
+    "ID": 20,
+    "Name": "Smart Light Bulb",
+    "Description": "16M Colors, Alexa & Google Assistant Compatible",
+    "ReleaseDate": "/Date(1708291200000)/",
+    "DiscontinuedDate": null,
+    "Rating": 3,
+    "Price": "24.99"
+  }
+]

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices">
+  <edmx:DataServices m:DataServiceVersion="2.0">
+    <Schema Namespace="ODataDemo" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityType Name="Product">
+            <Key>
+                <PropertyRef Name="ID"/>
+            </Key>
+            <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+            <Property Name="Name" Type="Edm.String" m:FC_TargetPath="SyndicationTitle" m:FC_ContentKind="text" m:FC_KeepInContent="false"/>
+            <Property Name="Description" Type="Edm.String" m:FC_TargetPath="SyndicationSummary" m:FC_ContentKind="text" m:FC_KeepInContent="false"/>
+            <Property Name="ReleaseDate" Type="Edm.DateTime" Nullable="false"/>
+            <Property Name="DiscontinuedDate" Type="Edm.DateTime"/>
+            <Property Name="Rating" Type="Edm.Int32" Nullable="false"/>
+            <Property Name="Price" Type="Edm.Decimal" Nullable="false"/>
+        </EntityType>
+        <EntityContainer Name="DemoService" m:IsDefaultEntityContainer="true">
+          <EntitySet Name="Products" EntityType="ODataDemo.Product"/>
+        </EntityContainer>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>
